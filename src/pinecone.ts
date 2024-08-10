@@ -3,12 +3,12 @@ import dotenv from 'dotenv';
 import { createItems } from './embeddings';
 dotenv.config();
 
-async function main(upsert: boolean = false) {
+export async function main(upsert: boolean = false, q?: string) {
   const pc = new Pinecone({ apiKey: process.env.PINECONE_API_KEY });
   const index = pc.index('test-1');
 
   const toEmbed = ['Dog', 'Cat', 'Bear'];
-  const { items, query } = await createItems(toEmbed, upsert, 'Cat');
+  const { items, query } = await createItems(toEmbed, upsert, q);
 
   if (upsert) {
     const upsertData: {
@@ -32,15 +32,10 @@ async function main(upsert: boolean = false) {
     vector: query,
   });
 
-  console.log(search);
-
   return search;
 }
 
 main()
-  .then((res) => {
-    console.log('search success', res);
-  })
   .catch((e) => {
     console.warn('some error e: ', e);
   });

@@ -1,8 +1,8 @@
 import * as sqliteVec from 'sqlite-vec';
 import Database from 'better-sqlite3';
-import { createEmbedding, createItems } from './embeddings';
+import { createItems } from './embeddings';
 
-async function main() {
+export async function main(q?: string) {
   const db = new Database(':memory:');
   sqliteVec.load(db);
 
@@ -12,7 +12,7 @@ async function main() {
 
   const toEmbed = ['Dog', 'Cat', 'Bear'];
 
-  const { items, query } = await createItems(toEmbed);
+  const { items, query } = await createItems(toEmbed, true, q);
 
   db.exec('CREATE VIRTUAL TABLE vec_items USING vec0(embedding float[1536])');
 
@@ -42,7 +42,7 @@ async function main() {
     )
     .all(new Float32Array(query));
 
-  console.log(rows);
-}
+    return rows;
+  }
 
 main().catch(console.error);

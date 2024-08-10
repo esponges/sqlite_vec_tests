@@ -6,7 +6,8 @@
   "scripts": {
     "basic": "npx tsx src/basic.ts",
     "openai": "npx tsx src/openai-embeddings.ts",
-    "pinecone": "npx tsx src/pinecone.ts"
+    "pinecone": "npx tsx src/pinecone.ts",
+    "comparison": "npx tsx src/comparison.ts"
   },
   "type": "module",
   "keywords": [],
